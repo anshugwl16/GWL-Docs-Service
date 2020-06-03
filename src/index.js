@@ -1,6 +1,7 @@
 import http from "http";
 import express from "express";
 import cors from "cors";
+import "babel-polyfill";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import middleware from "./middleware";

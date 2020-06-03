@@ -33,6 +33,7 @@
   "dependencies": {
     "ajv": "^6.10.2",
     "aws-sdk": "^2.686.0",
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.13.3",
     "compression": "^1.5.2",
     "cors": "^2.7.1",
