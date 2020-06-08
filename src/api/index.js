@@ -14,7 +14,7 @@ export default ({ config, db }) => {
 
  
 
-  api.post("/upload_file2", asyncHandler(async (req, res) => {
+  api.post("/upload_file", asyncHandler(async (req, res) => {
 
     try {
       const form = formidable({ multiples: true });
