@@ -26,7 +26,7 @@ s3.createBucket({ Bucket: bucketName }, function (err, data) {
     }
 }); */
 
-export const fileUpload = async (file = {}) => {
+export const fileUpload = async (key,file = {}) => {
     // console.log('#file', file);
 
     try {
@@ -35,7 +35,7 @@ export const fileUpload = async (file = {}) => {
 
         const params = {
             Bucket: process.env.DO_BUCKET_NAME,
-            Key: `ams-docs/${file.name}`,
+            Key: `${key}/${file.name}`,
             Body: fs.createReadStream(file.path)
         };
 
