@@ -44,11 +44,13 @@ export default ({ config, db }) => {
           return;
         };
 
+        const { key } = req.body || 'ams-docs';
+
         // console.log('#fields', fields);
         // console.log('#files', files);
 
         for (const file in files) {
-          let fileUploadAW = await fileUpload(files[file]);
+          let fileUploadAW = await fileUpload(key, files[file]);
           responseArr.push(fileUploadAW);
         };
 
