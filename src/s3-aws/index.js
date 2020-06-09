@@ -26,7 +26,7 @@ s3.createBucket({ Bucket: bucketName }, function (err, data) {
     }
 }); */
 
-export const fileUpload = async (key,file = {}) => {
+export const fileUpload = async (key, file = {}) => {
     // console.log('#file', file);
 
     try {
@@ -86,7 +86,28 @@ export const fileSearch = async (key) => {
         });
     })
     return await promise;
-}
+};
+
+export const fileDelete = (key) => {
+    console.log('#5');
+    const params = {
+        Bucket: process.env.DO_BUCKET_NAME,
+        Key: key
+    }
+
+    let promise = new Promise((resolve, reject) => {
+        s3.deleteObject(params, (err, data) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else {
+                console.log(data);
+                resolve(data);
+            }
+        });
+    });
+    return await promise;
+};
 
 
 

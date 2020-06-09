@@ -2,7 +2,7 @@ import { version } from "../../package.json";
 import { Router } from "express";
 const formidable = require('formidable');
 const asyncHandler = require('express-async-handler');
-import { fileUpload, fileSearch } from '../s3-aws/index';
+import { fileUpload, fileSearch, fileDelete } from '../s3-aws/index';
 
 export default ({ config, db }) => {
   let api = Router();
@@ -45,6 +45,18 @@ export default ({ config, db }) => {
       const { key } = req.body;
       let file = await fileSearch(key);
       res.status(200).send({ "searchResponse": file });
+    } catch (e) {
+      res.status(500).send(e);
+    }
+  }));
+
+  api.post("/file_delete", asyncHandler(async (req, res) => {
+    try {
+      const { keys } = req.body;
+      let responseArr = [];
+      keys.map(key => {
+        responseArr.push(fileDelete(key));
+      });
     } catch (e) {
       res.status(500).send(e);
     }
