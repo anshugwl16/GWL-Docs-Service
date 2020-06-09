@@ -12,7 +12,7 @@ import envVariables from '../envVariables';
 export default ({ config, db }) => {
   let api = Router();
 
- 
+
 
   api.post("/upload_file", asyncHandler(async (req, res) => {
 
@@ -26,16 +26,18 @@ export default ({ config, db }) => {
           return;
         };
 
-        const { key } = req.body || 'ams-docs';
+        // const { key } = req.body || 'ams-docs';
+        let { key } = fields || 'misc';
 
-       
+        console.log('#key', key);
+
 
         for (const file in files) {
           let fileUploadAW = await fileUpload(key, files[file]);
           responseArr.push(fileUploadAW);
         };
 
-       
+
         res.status(200).json({ "uploadResponse": responseArr });
       });
     } catch (e) {
