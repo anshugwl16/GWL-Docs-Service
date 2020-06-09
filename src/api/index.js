@@ -53,13 +53,24 @@ export default ({ config, db }) => {
   api.post("/file_delete", asyncHandler(async (req, res) => {
     try {
       const { keys } = req.body;
+      console.log('#keys', keys);
       let responseArr = [];
-      keys.map(key => {
-        responseArr.push(fileDelete(key));
-      });
+
+      for (let i = 0; i < keys.length; i++) {
+        let fileDeleteAw = await fileDelete(keys[i]);
+        console.log('#fileDeleteAw', fileDeleteAw);
+        responseArr.push(fileDeleteAw);
+      };
+      /* keys.map(asyncHandler(async (key) => {
+        let fileDeleteAw = await fileDelete(key);
+        responseArr.push(fileDeleteAw);
+      })); */
+
+      res.status(200).send(responseArr);
     } catch (e) {
       res.status(500).send(e);
     }
   }));
+
   return api;
 };

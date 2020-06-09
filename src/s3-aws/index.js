@@ -88,7 +88,7 @@ export const fileSearch = async (key) => {
     return await promise;
 };
 
-export const fileDelete = (key) => {
+export const fileDelete = async (key) => {
     console.log('#5');
     const params = {
         Bucket: process.env.DO_BUCKET_NAME,
@@ -98,10 +98,10 @@ export const fileDelete = (key) => {
     let promise = new Promise((resolve, reject) => {
         s3.deleteObject(params, (err, data) => {
             if (err) {
-                console.log(err);
+                console.log("#delErr", err);
                 reject(err);
             } else {
-                console.log(data);
+                console.log("#delData", data);
                 resolve(data);
             }
         });
