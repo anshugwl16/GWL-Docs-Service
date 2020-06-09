@@ -1,13 +1,8 @@
 import { version } from "../../package.json";
 import { Router } from "express";
-import Ajv from "ajv";
-import task from "../model/task";
-var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
 const formidable = require('formidable');
 const asyncHandler = require('express-async-handler');
 import { fileUpload, fileSearch } from '../s3-aws/index';
-
-import envVariables from '../envVariables';
 
 export default ({ config, db }) => {
   let api = Router();
@@ -29,7 +24,7 @@ export default ({ config, db }) => {
         // const { key } = req.body || 'ams-docs';
         let { key } = fields || 'misc';
 
-        console.log('#key', key);
+
 
 
         for (const file in files) {
