@@ -2,7 +2,7 @@ import { version } from "../../package.json";
 import { Router } from "express";
 const formidable = require('formidable');
 const asyncHandler = require('express-async-handler');
-import { fileUpload, fileSearch, fileDelete } from '../s3-aws/index';
+import { fileUpload, fileSearch, fileDelete } from '../s3-bucket/index';
 
 export default ({ config, db }) => {
   let api = Router();
@@ -21,17 +21,12 @@ export default ({ config, db }) => {
           return;
         };
 
-        // const { key } = req.body || 'ams-docs';
         let { key } = fields || 'misc';
-
-
-
 
         for (const file in files) {
           let fileUploadAW = await fileUpload(key, files[file]);
           responseArr.push(fileUploadAW);
         };
-
 
         res.status(200).json({ "uploadResponse": responseArr });
       });
@@ -41,6 +36,7 @@ export default ({ config, db }) => {
   }));
 
   api.post("/file_search", asyncHandler(async (req, res) => {
+
     try {
       const { key } = req.body;
       let file = await fileSearch(key);
@@ -51,6 +47,7 @@ export default ({ config, db }) => {
   }));
 
   api.post("/file_delete", asyncHandler(async (req, res) => {
+    
     try {
       const { keys } = req.body;
       console.log('#keys', keys);
@@ -61,6 +58,7 @@ export default ({ config, db }) => {
         console.log('#fileDeleteAw', fileDeleteAw);
         responseArr.push(fileDeleteAw);
       };
+      
       /* keys.map(asyncHandler(async (key) => {
         let fileDeleteAw = await fileDelete(key);
         responseArr.push(fileDeleteAw);

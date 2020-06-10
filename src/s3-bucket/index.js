@@ -3,11 +3,6 @@ const AWS = require('aws-sdk');
 const asyncHandler = require('express-async-handler');
 require('dotenv').config();
 
-import envVariables from '../envVariables';
-import { resolve } from 'dns';
-import { rejects } from 'assert';
-import { response } from 'express';
-
 const spacesEndPoint = new AWS.Endpoint(process.env.DO_REGION + '.digitaloceanspaces.com');
 const s3 = new AWS.S3({
     endpoint: spacesEndPoint,
@@ -15,22 +10,10 @@ const s3 = new AWS.S3({
     secretAccessKey: process.env.DO_SECRET_ACCESS_KEY
 });
 
-// console.log('#s3', s3);
-
-/* const bucketName = envVariables.DO_BUCKET_NAME;
-s3.createBucket({ Bucket: bucketName }, function (err, data) {
-    if (!err) {
-        console.log('#err buc', err);
-    } else {
-        console.log('#data buc', data);
-    }
-}); */
-
 export const fileUpload = async (key, file = {}) => {
-    // console.log('#file', file);
 
     try {
-        console.log('#1');
+
         let uploadResponse = [];
 
         const params = {
@@ -44,17 +27,13 @@ export const fileUpload = async (key, file = {}) => {
             queSize: 10
         };
 
-        // console.log('#params',params)
         let promise = new Promise((resolve, reject) => {
             s3.upload(params, async (err, data) => {
                 if (!err) {
                     console.log('Successful Upload', data);
-                    // uploadResponse = data;
-                    // console.log('#2');
                     resolve(data);
                 } else {
                     console.log('Upload Failed', err);
-                    // console.log('#3');
                     reject(err);
                 }
             });
@@ -68,7 +47,6 @@ export const fileUpload = async (key, file = {}) => {
 
 export const fileSearch = async (key) => {
 
-    console.log('#4')
     const params = {
         Bucket: process.env.DO_BUCKET_NAME,
         Key: key
@@ -89,7 +67,7 @@ export const fileSearch = async (key) => {
 };
 
 export const fileDelete = async (key) => {
-    console.log('#5');
+
     const params = {
         Bucket: process.env.DO_BUCKET_NAME,
         Key: key
@@ -102,7 +80,12 @@ export const fileDelete = async (key) => {
                 reject(err);
             } else {
                 console.log("#delData", data);
-                resolve(data);
+                let logData = {
+                    data: data,
+                    status: "Successfully Deleted",
+                    key: key
+                }
+                resolve(logData);
             }
         });
     });
