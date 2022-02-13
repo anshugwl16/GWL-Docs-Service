@@ -31,7 +31,7 @@
   "author": "Jason Miller <jason@developit.ca>",
   "license": "MIT",
   "dependencies": {
-    "ajv": "^6.10.2",
+    "ajv": "^6.12.3",
     "aws-sdk": "^2.686.0",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.13.3",
